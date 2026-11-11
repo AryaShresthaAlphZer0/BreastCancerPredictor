@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ML Classification Demo</title>
+</head>
+
+<body>
+
+    <h1>Breast Cancer Dataset Classification Demo</h1>
+
+    <p>
+        Educational machine-learning demonstration.
+        Not intended for medical diagnosis.
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for feature in features %}
+
+            <div>
+                <label for="{{ feature.key }}">
+                    {{ feature.label }}
+                </label>
+
+                <input
+                    type="number"
+                    step="any"
+                    id="{{ feature.key }}"
+                    name="{{ feature.key }}"
+                    required
+                >
+            </div>
+
+        {% endfor %}
+
+        <button type="submit">
+            Predict
+        </button>
+
+    </form>
+
+    {% if result %}
+        <h2>Model classification: {{ result }}</h2>
+    {% endif %}
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>
