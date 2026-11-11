@@ -1,53 +1,116 @@
 
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ML Classification Demo</title>
+
+    <link rel="stylesheet" href="{% static 'predictor/style.css' %}">
 </head>
 
 <body>
 
-    <h1>Breast Cancer Dataset Classification Demo</h1>
+    <nav class="navbar">
+        <div class="brand">
+            <span class="brand-icon">M</span>
+            <span>ML Classifier</span>
+        </div>
 
-    <p>
-        Educational machine-learning demonstration.
-        Not intended for medical diagnosis.
-    </p>
+        <span class="nav-label">Educational Demo</span>
+    </nav>
 
-    <form method="POST">
-        {% csrf_token %}
+    <main class="container">
 
-        {% for feature in features %}
+        <section class="hero">
+            <span class="eyebrow">MACHINE LEARNING PROJECT</span>
 
-            <div>
-                <label for="{{ feature.key }}">
-                    {{ feature.label }}
-                </label>
+            <h1>Breast Cancer Dataset Classification</h1>
 
-                <input
-                    type="number"
-                    step="any"
-                    id="{{ feature.key }}"
-                    name="{{ feature.key }}"
-                    required
-                >
+            <p>
+                Explore how a machine learning model classifies
+                numerical samples using the Scikit-learn dataset.
+            </p>
+
+            <div class="notice">
+                Educational demonstration only. This website
+                cannot diagnose cancer or assess anyone's health.
+            </div>
+        </section>
+
+        <section class="form-card">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Input Features</h2>
+                    <p>Enter all 30 numerical feature values.</p>
+                </div>
+
+                <span class="count">30 FEATURES</span>
             </div>
 
-        {% endfor %}
+            <form method="POST">
+                {% csrf_token %}
 
-        <button type="submit">
-            Predict
-        </button>
+                <div class="feature-grid">
 
-    </form>
+                    {% for feature in features %}
 
-    {% if result %}
-        <h2>Model classification: {{ result }}</h2>
-    {% endif %}
+                        <div class="field">
+                            <label for="{{ feature.key }}">
+                                {{ feature.label }}
+                            </label>
 
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
+                            <input
+                                type="number"
+                                step="any"
+                                id="{{ feature.key }}"
+                                name="{{ feature.key }}"
+                                placeholder="Enter value"
+                                required
+                            >
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <button type="submit" class="predict-btn">
+                    Classify Sample
+                    <span>→</span>
+                </button>
+
+            </form>
+
+            {% if result %}
+                <div class="result">
+                    <span class="result-label">MODEL CLASSIFICATION</span>
+                    <h2>{{ result|title }}</h2>
+                    <p>
+                        This is the model's classification of the
+                        submitted numerical values, not a medical result.
+                    </p>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="error">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+        </section>
+
+        <footer>
+            Built with Django and Scikit-learn
+            <br>
+            Educational project — not for medical use.
+        </footer>
+
+    </main>
 
 </body>
 </html>
